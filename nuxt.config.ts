@@ -19,12 +19,12 @@ export default defineNuxtConfig({
     },
   },
 
-  alias: {
-    "#internal/nitro": resolve(
-      __dirname,
-      "src/server/nitro-socket/dist/runtime"
-    ),
-  },
+  // alias: {
+  //   "#internal/nitro": resolve(
+  //     __dirname,
+  //     "src/server/nitro-socket/dist/runtime"
+  //   ),
+  // },
 
   nitro: {
     preset: resolve(__dirname, "node-socket.ts"),
