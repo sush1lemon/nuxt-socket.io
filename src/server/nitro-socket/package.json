@@ -15,14 +15,14 @@
     "./dist/runtime/*": "./dist/runtime/*.mjs",
     "./package.json": "./package.json"
   },
-  "main": "./dist/index.mjs",
+  "main": "nitro-dist/index.mjs",
   "types": "./dist/index.d.ts",
   "bin": {
-    "nitro": "./dist/cli.mjs",
-    "nitropack": "./dist/cli.mjs"
+    "nitro": "nitro-dist/cli.mjs",
+    "nitropack": "nitro-dist/cli.mjs"
   },
   "files": [
-    "dist"
+    "nitro-dist"
   ],
   "scripts": {
     "build": "unbuild",

@@ -20,7 +20,7 @@ src/server/nitro-socket
 ```
 **nitro-socket.ts changes**
 ```ts
-// src/server/nitro-socket/dist/runtime/entries/nitro-socket.ts
+// src/server/nitro-socket/nitro-dist/runtime/entries/nitro-socket.ts
 
 import { socketHandler } from "../../../../../socket/handler";
 
@@ -42,7 +42,7 @@ nitro: {
 alias: {
   "#internal/nitro": resolve(
     __dirname,
-    "src/server/nitro-socket/dist/runtime"
+    "src/server/nitro-socket/nitro-dist/runtime"
   ),
 },
 ```
