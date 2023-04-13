@@ -27,6 +27,6 @@ export default defineNuxtConfig({
   },
 
   nitro: {
-    preset: resolve(__dirname, "src/server/presets/node-socket.ts"),
+    preset: resolve(__dirname, "node-socket.ts"),
   },
 });
