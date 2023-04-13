@@ -18,6 +18,12 @@ export default defineNuxtConfig({
       ],
     },
   },
+  alias: {
+    "#internal/nitro": resolve(
+      __dirname,
+      "src/nitro-socket/nitro-dist/runtime"
+    ),
+  },
   nitro: {
     preset: resolve(__dirname, "node-socket.ts"),
   },
