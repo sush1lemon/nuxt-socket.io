@@ -3,9 +3,7 @@
 A junky a way to use socket.io with nuxt 3 nitro server
 
 ### How does this works?
-By using a custom build of nitropack that contains the socket.io server
-
-By creating custom preset and a custom entry file, we can add the socket.io server.
+By using a custom build of nitropack that contains the socket.io server, creating custom preset and a custom entry file, we can add the socket.io server.
 
 ### Related Files
 
@@ -18,11 +16,11 @@ node-socket.ts
 ```
 src/server/nitro-socket
 ```
-**nitro-socket.ts changes**
+**nitro-socket.ts and nitro-dev.ts changes**
 ```ts
 // src/server/nitro-socket/nitro-dist/runtime/entries/nitro-socket.ts
 
-import { socketHandler } from "../../../../../socket/handler";
+import { socketHandler } from "~/socket/handler";
 
 // Inside the server.listen callback
 const io = new SocketServer(server);
@@ -37,13 +35,7 @@ src/socket/handler.ts
 **Nuxt Config Changes**
 ```ts
 nitro: {
-  preset: resolve(__dirname, "src/server/presets/node-socket.ts"),
-},
-alias: {
-  "#internal/nitro": resolve(
-    __dirname,
-    "src/server/nitro-socket/nitro-dist/runtime"
-  ),
+  preset: resolve(__dirname, "node-socket.ts"),
 },
 ```
 

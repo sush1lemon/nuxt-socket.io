@@ -43,12 +43,14 @@ if ($io) {
   });
 }
 const sendMessage = () => {
-  console.log(message.value);
-  $io.emit("message", {
-    message: message.value,
-    sender: $io.id,
-  });
-  message.value = "";
+  if (message.value != "") {
+    console.log(message.value);
+    $io.emit("message", {
+      message: message.value,
+      sender: $io.id,
+    });
+    message.value = "";
+  }
 };
 </script>
 
