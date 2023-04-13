@@ -11,7 +11,7 @@ export default defineNuxtConfig({
     head: {
       script: [
         {
-          src: "/preline/nitro-dist/preline.js",
+          src: "/preline/dist/preline.js",
           body: true,
           defer: true,
         },

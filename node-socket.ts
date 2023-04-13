@@ -5,7 +5,7 @@ export default defineNitroPreset({
   // entry: "#internal/nitro/entries/node-socket",
   entry: resolve(
     __dirname,
-    "src/server/nitro-socket/dist/runtime/entries/node-socket"
+    "src/server/nitro-socket/nitro-dist/runtime/entries/node-socket"
   ),
   // extends: "internal/nitro-default/entries/node",
   serveStatic: true,
