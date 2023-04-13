@@ -11,7 +11,7 @@ export default defineNuxtConfig({
     head: {
       script: [
         {
-          src: "/preline/dist/preline.js",
+          src: "/preline/nitro-dist/preline.js",
           body: true,
           defer: true,
         },
@@ -22,7 +22,7 @@ export default defineNuxtConfig({
   alias: {
     "#internal/nitro": resolve(
       __dirname,
-      "src/server/nitro-socket/dist/runtime"
+      "src/server/nitro-socket/nitro-dist/runtime"
     ),
   },
 
