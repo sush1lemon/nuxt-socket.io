@@ -2,6 +2,9 @@
 
 A junky a way to use socket.io with nuxt 3 nitro server
 
+### Demo
+https://nuxt-socket.onrender.com/
+
 ### How does this works?
 By using a custom build of nitropack that contains the socket.io server, creating custom preset and a custom entry file, we can add the socket.io server.
 
