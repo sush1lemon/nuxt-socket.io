@@ -97,7 +97,9 @@ onMounted(() => {
         $io.on("message",  (msg) => {
             messages.value.push(msg);
             if (msg.from_id === me.value.id) {
-                toBottom();
+                nextTick(() => {
+                    toBottom();
+                })
             }
         });
         $io.on("join",  (msg) => {
