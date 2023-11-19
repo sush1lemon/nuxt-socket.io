@@ -1,30 +1,37 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
-import { resolve } from "pathe";
+import {resolve} from "pathe";
 
 export default defineNuxtConfig({
-  srcDir: "src",
-  modules: ["@nuxtjs/tailwindcss"],
-  typescript: {
-    strict: true,
+  devtools: { enabled: false },
+  modules: ['@nuxtjs/tailwindcss'],
+  runtimeConfig: {
+    TURSO: {
+      URL: process.env.TURSO_URL,
+      TOKEN: process.env.TURSO_TOKEN,
+    }
   },
-  app: {
-    head: {
-      script: [
-        {
-          src: "/preline/preline-dist/preline.js",
-          body: true,
-          defer: true,
-        },
-      ],
-    },
+  hooks: {
+    'components:dirs': (dirs) => {
+      dirs.unshift({
+        path: '~/components/ui',
+        // this is required else Nuxt will autoImport `.ts` file
+        extensions: ['.vue'],
+        // prefix for your components, eg: UiButton
+        prefix: 'Ui',
+        // prevent adding another prefix component by it's path.
+        pathPrefix: false
+      })
+    }
   },
+  plugins: ['~/plugins/socket.client'],
   alias: {
     "#internal/nitro": resolve(
-      __dirname,
-      "src/server/nitro-socket/nitro-dist/runtime"
+    __dirname,
+    "server/nitro-socket/nitro-dist/runtime"
     ),
   },
   nitro: {
-    preset: resolve(__dirname, "node-socket.ts"),
+    // preset: resolve(__dirname, "node-socket-preset.ts"),
+    entry: "#internal/nitro/entries/node-socket",
   },
-});
+})
