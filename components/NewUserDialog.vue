@@ -26,7 +26,7 @@ onMounted(() => {
 })
 
 const save = () => {
-    user.value.name = username.value;
+    user.value.name = username.value.substring(0, 50);
     opened.value = false;
 }
 

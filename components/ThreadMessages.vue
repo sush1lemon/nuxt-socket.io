@@ -3,11 +3,7 @@ import {Button} from "~/components/ui/button";
 import {HamburgerMenuIcon} from '@radix-icons/vue'
 import {Avatar, AvatarImage, AvatarFallback} from "~/components/ui/avatar";
 import {Input} from "~/components/ui/input";
-import {useNewMessage} from "~/composables/useNewMessage";
 import type {Socket} from "socket.io-client";
-import SocketClient from "~/plugins/socket.client";
-import { vInfiniteScroll } from '@vueuse/components'
-import {useScroll} from "@vueuse/core";
 import useWindowRefScroll from "~/composables/useWindowRefScroll";
 import crypto from "crypto";
 
@@ -31,6 +27,8 @@ watch(() => route.path, () => {
         }
         currentThread.value = <string>route.params.id;
         fetchMessages()
+    } else {
+        messages.value = [];
     }
 })
 
@@ -62,7 +60,7 @@ const fetchMessages = async (page = 1) => {
         messages.value = fetched.reverse();
         messagePage = page;
         joinRoom()
-        nextTick(() => {
+        await nextTick(() => {
             toBottom();
         })
     } else {
@@ -102,11 +100,10 @@ onMounted(() => {
                 })
             }
         });
-        $io.on("join",  (msg) => {
+        $io.on("join",  async (msg) => {
             messages.value.push(msg)
-            console.log("join", msg)
             if (msg.from_id == me.value.id) {
-                nextTick(() => {
+                await nextTick(() => {
                     toBottom();
                 })
             }
@@ -119,10 +116,11 @@ onMounted(() => {
 </script>
 <template>
     <div class="col-span-12 lg:col-span-9 flex flex-col bg-secondary overflow-y-auto" ref="messagesEL">
-        <div class="lg:hidden bg-background border-b p-2 sticky flex top-0">
-            <Button class="px-3 py-2 ml-auto" variant="outline">
-                <HamburgerMenuIcon class="w-6 h-6"/>
-            </Button>
+        <div class="lg:hidden bg-background border-b p-2 sticky flex top-0 z-10">
+<!--            <Button aria-label="sidebar-button" class="px-3 py-2" variant="outline">-->
+<!--                <HamburgerMenuIcon class="w-6 h-6"/>-->
+<!--            </Button>-->
+            <Sidebar/>
         </div>
         <div class="grow py-3 px-4 flex flex-col justify-end gap-4">
             <template v-for="(message, key) in messages" :key="key">
@@ -139,10 +137,11 @@ onMounted(() => {
                         <Avatar>
                             <AvatarFallback>s</AvatarFallback>
                             <AvatarImage
+                                alt="user-image"
                                 :src="`https://api.dicebear.com/7.x/lorelei/svg?backgroundType=solid&backgroundColor=b6e3f4,c0aede,d1d4f9&seed=${message.from_id}&flip=true`"></AvatarImage>
                         </Avatar>
                     </div>
-                    <div class="flex gap-2 relative max-w-[64%]" v-else>
+                    <div class="flex gap-2 relative lg:max-w-[64%]" v-else>
                         <h3 class="text-xs absolute left-12 top-[-10px]">{{ message.from_name }}</h3>
                         <Avatar>
                             <AvatarFallback>s</AvatarFallback>
@@ -157,7 +156,7 @@ onMounted(() => {
             </template>
         </div>
         <form @submit.prevent="sendMessage" class="flex justify-between mt-auto sticky bottom-0">
-            <Input v-model="messageContent" class="bg-background rounded-none border-l-0 h-full"></Input>
+            <Input aria-label="message-content" v-model="messageContent" class="bg-background rounded-none border-l-0 h-full"></Input>
             <Button type="submit" class="rounded-l-none" size="lg">Send</Button>
         </form>
     </div>
