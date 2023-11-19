@@ -4,7 +4,6 @@ import {resolve} from "pathe";
 export default defineNuxtConfig({
   devtools: { enabled: false },
   modules: ['@nuxtjs/tailwindcss'],
-  la
   runtimeConfig: {
     TURSO: {
       URL: process.env.TURSO_URL,
