@@ -10,7 +10,7 @@ import {Button} from "~/components/ui/button";
         class="col-span-3 hidden lg:flex flex-col overflow-y-auto bg-background absolute h-full z-10 lg:relative border-r">
         <div class="h-14 justify-between px-4 flex items-center border-b sticky top-0 bg-background">
             <h3 class="font-bold">New Chat</h3>
-            <Button class="px-2.5" variant="outline">
+            <Button name="new-thread-button" class="px-2.5" variant="outline">
                 <PlusIcon class="w-4 h-4"/>
             </Button>
         </div>

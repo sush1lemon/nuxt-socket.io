@@ -6,6 +6,7 @@ import {Input} from "~/components/ui/input";
 import type {Socket} from "socket.io-client";
 import useWindowRefScroll from "~/composables/useWindowRefScroll";
 import crypto from "crypto";
+import useMobileCheck from "~/composables/useMobileCheck";
 
 const { $io } : { $io: Socket} = useNuxtApp();
 const me = useCookie('ncs-user', {
@@ -18,6 +19,8 @@ let messageCount = ref(0);
 let messagePage = 1;
 
 const messagesEL = ref<HTMLElement | null>(null)
+const inputEl = ref<HTMLElement | null>(null)
+
 let currentThread = ref('')
 
 watch(() => route.path, () => {
@@ -83,6 +86,10 @@ const sendMessage = async () => {
         $io.emit("message", currentThread.value, message)
     }
     messageContent.value = "";
+    if (useMobileCheck()) {
+        if (document.activeElement instanceof HTMLElement)
+            document.activeElement.blur();
+    }
 }
 
 if (route.name == "t-id") {
@@ -156,7 +163,7 @@ onMounted(() => {
             </template>
         </div>
         <form @submit.prevent="sendMessage" class="flex justify-between mt-auto sticky bottom-0">
-            <Input aria-label="message-content" v-model="messageContent" class="bg-background rounded-none border-l-0 h-full"></Input>
+            <Input ref="inputEl" aria-label="message-content" v-model="messageContent" class="bg-background rounded-none border-l-0 h-full"></Input>
             <Button type="submit" class="rounded-l-none" size="lg">Send</Button>
         </form>
     </div>

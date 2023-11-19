@@ -24,13 +24,13 @@ import {HamburgerMenuIcon} from "@radix-icons/vue";
 </script>
 
 <template>
-    <Sheet v-bind:open="open">
+    <Sheet v-bind:modal="open">
         <SheetTrigger as-child>
             <Button aria-label="sidebar-button" class="px-2 py-2" variant="outline"  v-on:click="() => open = true">
                 <HamburgerMenuIcon class="w-6 h-6"/>
             </Button>
         </SheetTrigger>
-        <SheetContent side="left">
+        <SheetContent side="left" class="max-w-xs">
             <SheetHeader>
                 <SheetTitle>Threads</SheetTitle>
             </SheetHeader>
