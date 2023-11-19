@@ -30,6 +30,7 @@ export default defineEventHandler(async (event) => {
     args: [<string>thread, limit, offset]
   })
 
+  client.close()
   return {
     messages: messages.rows
   }
