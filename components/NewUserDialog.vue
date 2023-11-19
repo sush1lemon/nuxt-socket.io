@@ -8,22 +8,50 @@ import {
     DialogTitle,
     DialogTrigger,
 } from '@/components/ui/dialog'
+import { Button } from "~/components/ui/button";
+import {Label} from "~/components/ui/label";
+import { Input } from "~/components/ui/input"
+import crypto from "crypto";
+
+let opened = ref(false);
+let username = ref('');
+const user = useCookie('ncs-user', {
+    default: () => ({id: crypto.randomUUID(), name: null})
+})
+
+onMounted(() => {
+    if (!user.value.name) {
+        opened.value = true;
+    }
+})
+
+const save = () => {
+    user.value.name = username.value;
+    opened.value = false;
+}
+
 </script>
 <template>
-    <Dialog>
-        <DialogTrigger>
-            Edit Profile
-        </DialogTrigger>
+    <Dialog v-bind:open="opened">
         <DialogContent>
             <DialogHeader>
-                <DialogTitle>Edit profile</DialogTitle>
+                <DialogTitle>Welcome</DialogTitle>
                 <DialogDescription>
-                    Make changes to your profile here. Click save when you're done.
+                    Enter a username that everyone will call you.
                 </DialogDescription>
             </DialogHeader>
-
+            <div class="grid gap-4 py-4">
+                <div class="grid grid-cols-4 items-center gap-4">
+                    <Label for="username" class="text-right">
+                        Username
+                    </Label>
+                    <Input id="username" v-model="username" class="col-span-3" />
+                </div>
+            </div>
             <DialogFooter>
-                Save changes
+                <Button type="submit" v-on:click="save">
+                    Save
+                </Button>
             </DialogFooter>
         </DialogContent>
     </Dialog>

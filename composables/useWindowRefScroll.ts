@@ -15,7 +15,6 @@ export default function (elementRef: Ref<HTMLElement>, callback: Function, dista
 
     const handleScroll = () => {
         const element = elementRef.value;
-        console.log(element.scrollTop);
         // console.log(element.getBoundingClientRect().bottom, element.scrollHeight);
         if (element.scrollTop <  distance) {
             callback();

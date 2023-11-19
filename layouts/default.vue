@@ -10,6 +10,7 @@ const isActive = (link: Array<string>): 'default' | 'outline' => {
 }
 </script>
 <template>
+    <NewUserDialog></NewUserDialog>
     <main class="bg-background min-h-screen flex justify-center p-2">
         <div class="flex flex-col max-w-6xl w-full gap-2 mt-20">
 

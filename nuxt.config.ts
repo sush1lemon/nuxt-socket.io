@@ -31,8 +31,7 @@ export default defineNuxtConfig({
     ),
   },
   nitro: {
-    // preset: resolve(__dirname, "node-socket-preset.ts"),
-    entry: "#internal/nitro/entries/node-socket",
+    entry: process.env.NODE_ENV == 'production' ? "#internal/nitro/entries/node-socket" : undefined,
   },
   app: {
     head: {

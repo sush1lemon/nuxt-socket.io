@@ -13,7 +13,7 @@ import crypto from "crypto";
 
 const { $io } : { $io: Socket} = useNuxtApp();
 const me = useCookie('ncs-user', {
-    default: () => ({id: crypto.randomUUID(), name: crypto.randomUUID()})
+    default: () => ({id: crypto.randomUUID(), name: null})
 });
 const route = useRoute()
 let messages = ref([]);
@@ -80,7 +80,7 @@ const sendMessage = async () => {
         const message = {
             content: messageContent.value,
             from_id: me.value.id,
-            from_name: me.value.id
+            from_name: me.value?.name ?? me.value.id,
         }
         $io.emit("message", currentThread.value, message)
     }
