@@ -4,6 +4,7 @@ import {resolve} from "pathe";
 export default defineNuxtConfig({
   devtools: { enabled: false },
   modules: ['@nuxtjs/tailwindcss'],
+  la
   runtimeConfig: {
     TURSO: {
       URL: process.env.TURSO_URL,
@@ -34,4 +35,13 @@ export default defineNuxtConfig({
     // preset: resolve(__dirname, "node-socket-preset.ts"),
     entry: "#internal/nitro/entries/node-socket",
   },
+  app: {
+    head: {
+      htmlAttrs: {
+        lang: 'en'
+      },
+      title: 'Nuxt3 + Socket.io + Turso Chat',
+      charset: 'utf-8',
+    }
+  }
 })

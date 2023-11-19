@@ -1,4 +1,4 @@
-# Nuxt 3 + Socket.io
+# Nuxt3 + Socket.io + Turso Chat
 
 A junky a way to use socket.io with nuxt 3 nitro server
 
