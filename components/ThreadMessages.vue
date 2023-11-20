@@ -11,7 +11,7 @@ import useMobileCheck from "~/composables/useMobileCheck";
 const { $io } : { $io: Socket} = useNuxtApp();
 const now = new Date();
 now.setFullYear(now.getFullYear() + 1);
-const user = useCookie('ncs-user', {
+const me = useCookie('ncs-user', {
     default: () => ({id: crypto.randomUUID(), name: null}),
     expires: now
 })
