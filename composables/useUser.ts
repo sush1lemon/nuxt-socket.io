@@ -1,13 +1,14 @@
 import crypto from "crypto";
+import {useLocalStorage, useStorage} from "@vueuse/core";
 
 export default function () {
-    const now = new Date();
-    now.setFullYear(now.getFullYear() + 1);
-    let user = useCookie('ncs-user', {
-        default: () => ({id: crypto.randomUUID(), name: null}),
-        expires: now,
-        watch: true
-    });
-
+    let user = useStorage('ncs-user', {id: getCrypto().randomUUID(), name: null});
     return { user }
+}
+function getCrypto() {
+  try {
+    return window.crypto;
+  } catch {
+    return crypto;
+  }
 }
