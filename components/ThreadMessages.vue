@@ -7,14 +7,10 @@ import type {Socket} from "socket.io-client";
 import useWindowRefScroll from "~/composables/useWindowRefScroll";
 import crypto from "crypto";
 import useMobileCheck from "~/composables/useMobileCheck";
+import useUser from "~/composables/useUser";
 
 const { $io } : { $io: Socket} = useNuxtApp();
-const now = new Date();
-now.setFullYear(now.getFullYear() + 1);
-const me = useCookie('ncs-user', {
-    default: () => ({id: crypto.randomUUID(), name: null}),
-    expires: now
-})
+const {user} = useUser()
 const route = useRoute()
 let messages = ref([]);
 let messageContent = ref('');
@@ -29,7 +25,7 @@ let currentThread = ref('')
 watch(() => route.path, () => {
     if (route.name == "t-id") {
         if (currentThread.value) {
-            $io.emit("leaveRoom", currentThread.value, me.value)
+            $io.emit("leaveRoom", currentThread.value, user.value)
         }
         currentThread.value = <string>route.params.id;
         fetchMessages()
@@ -58,8 +54,6 @@ const fetchMessages = async (page = 1) => {
         query: { thread: route.params.id, page }
     })
 
-    console.log("fetching messages")
-
     const { messages: fetched } = data.value
     messageCount.value = fetched.length
     if (page === 1) {
@@ -75,7 +69,7 @@ const fetchMessages = async (page = 1) => {
 }
 const joinRoom = () => {
     if (currentThread.value && $io) {
-        $io.emit("joinRoom", currentThread.value, me.value)
+        $io.emit("joinRoom", currentThread.value, user.value)
     }
 }
 
@@ -83,8 +77,8 @@ const sendMessage = async () => {
     if (route.name == "t-id" && messageContent.value) {
         const message = {
             content: messageContent.value,
-            from_id: me.value.id,
-            from_name: me.value?.name ?? me.value.id,
+            from_id: user.value.id,
+            from_name: user.value?.name ?? user.value.id,
         }
         $io.emit("message", currentThread.value, message)
     }
@@ -104,7 +98,7 @@ onMounted(() => {
     if ($io) {
         $io.on("message",  (msg) => {
             messages.value.push(msg);
-            if (msg.from_id === me.value.id) {
+            if (msg.from_id === user.value.id) {
                 nextTick(() => {
                     toBottom();
                 })
@@ -112,7 +106,7 @@ onMounted(() => {
         });
         $io.on("join",  async (msg) => {
             messages.value.push(msg)
-            if (msg.from_id == me.value.id) {
+            if (msg.from_id == user.value.id) {
                 await nextTick(() => {
                     toBottom();
                 })
@@ -138,7 +132,7 @@ onMounted(() => {
                     <h3 class="text-center text-secondary-foreground/60 text-sm">{{ message.content }}</h3>
                 </div>
                 <template v-else>
-                    <div class="flex justify-end gap-2" v-if="message.from_id == me.id">
+                    <div class="flex justify-end gap-2" v-if="message.from_id == user.id">
                         <div class="relative">
                             <p class="mt-2 bg-yellow-100/90 p-2 rounded text-primary">
                                 {{ message.content }}

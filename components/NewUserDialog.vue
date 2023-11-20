@@ -12,16 +12,12 @@ import { Button } from "~/components/ui/button";
 import {Label} from "~/components/ui/label";
 import { Input } from "~/components/ui/input"
 import crypto from "crypto";
+import useUser from "~/composables/useUser";
 
 let opened = ref(false);
 let username = ref('');
 
-const now = new Date();
-now.setFullYear(now.getFullYear() + 1);
-const user = useCookie('ncs-user', {
-    default: () => ({id: crypto.randomUUID(), name: null}),
-    expires: now
-})
+const { user } = useUser()
 
 onMounted(() => {
     if (!user.value.name) {
@@ -30,7 +26,9 @@ onMounted(() => {
 })
 
 const save = () => {
-    user.value.name = username.value.substring(0, 50);
+    console.log("saving username", user.value, username.value)
+    const trimmed = username.value.substring(0, 50);
+    user.value.name = trimmed
     opened.value = false;
 }
 
