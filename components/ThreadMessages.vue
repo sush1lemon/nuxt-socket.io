@@ -9,9 +9,12 @@ import crypto from "crypto";
 import useMobileCheck from "~/composables/useMobileCheck";
 
 const { $io } : { $io: Socket} = useNuxtApp();
-const me = useCookie('ncs-user', {
-    default: () => ({id: crypto.randomUUID(), name: null})
-});
+const now = new Date();
+now.setFullYear(now.getFullYear() + 1);
+const user = useCookie('ncs-user', {
+    default: () => ({id: crypto.randomUUID(), name: null}),
+    expires: now
+})
 const route = useRoute()
 let messages = ref([]);
 let messageContent = ref('');

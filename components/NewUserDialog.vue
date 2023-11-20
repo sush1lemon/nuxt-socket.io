@@ -15,8 +15,12 @@ import crypto from "crypto";
 
 let opened = ref(false);
 let username = ref('');
+
+const now = new Date();
+now.setFullYear(now.getFullYear() + 1);
 const user = useCookie('ncs-user', {
-    default: () => ({id: crypto.randomUUID(), name: null})
+    default: () => ({id: crypto.randomUUID(), name: null}),
+    expires: now
 })
 
 onMounted(() => {
