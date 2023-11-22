@@ -24,14 +24,9 @@ export default defineNuxtConfig({
     }
   },
   plugins: ['~/plugins/socket.client'],
-  alias: {
-    "#internal/nitro": resolve(
-    __dirname,
-    "server/nitro-socket/nitro-dist/runtime"
-    ),
-  },
   nitro: {
-    entry: process.env.NODE_ENV == 'production' ? "#internal/nitro/entries/node-socket" : undefined,
+    entry: process.env.NODE_ENV == 'production' ? undefined : "../preset/entry.dev",
+    preset: "./preset",
   },
   app: {
     head: {

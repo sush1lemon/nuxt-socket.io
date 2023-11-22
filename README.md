@@ -1,23 +1,25 @@
 # Nuxt3 + Socket.io + Turso Chat
 
-A junky a way to use socket.io with nuxt 3 nitro server
-
 ### Demo
 https://nuxt-socket.onrender.com
 
 ### How does this works?
-By using a custom build of nitropack that contains the socket.io server, we can add the socket.io server.
+By using a custom nitropack preset and entry files that contains the socket.io server, we can add the socket.io server.
 ### Related Files
 
-**Custom Nitropack Build**
+**Custom Nitropack Preset/Entry**
 ```
-server/nitro-socket
+preset/entry.dev.ts
+preset/entry.ts // for production build
+preset/nitro.config.ts // preset
+
 ```
 **nitro-socket.ts and nitro-dev.ts changes**
 ```ts
-// src/server/nitro-socket/nitro-dist/runtime/entries/nitro-socket.ts
+// preset/entry.ts and preset/entry.dev.ts
 
 import { socketHandler } from "~/socket/handler";
+import { Server as SocketServer } from 'socket.io';
 
 // Inside the server.listen callback
 const io = new SocketServer(server);
@@ -31,14 +33,10 @@ socket/handler.ts
 
 **Nuxt Config Changes**
 ```ts
-alias: {
-    "#internal/nitro": resolve(
-        __dirname,
-        "server/nitro-socket/nitro-dist/runtime"
-    ),
-},
+plugins: ['~/plugins/socket.client'],
 nitro: {
-    entry: process.env.NODE_ENV == 'production' ? "#internal/nitro/entries/node-socket" : undefined,
+    entry: process.env.NODE_ENV == 'production' ? undefined : "../preset/entry.dev",
+    preset: "./preset",
 },
 ```
 
