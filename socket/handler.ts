@@ -51,7 +51,6 @@ export const socketHandler = async (io: Server) => {
               Math.floor((new Date).getTime() / 1000),
             ]
           })
-          client.close()
         }
       }
     });
@@ -63,6 +62,5 @@ const getThreads = async () => {
   const threadsQ = await client.execute(
     "select * from threads",
   )
-  client.close()
   return threadsQ.rows
 }

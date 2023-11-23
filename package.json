@@ -8,7 +8,8 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "dev:migrate": "tsx ./migrate"
+    "dev:migrate": "tsx ./migrate",
+    "start": "HOST=0.0.0.0 node .output/server/index.mjs"
   },
   "devDependencies": {
     "@nuxt/devtools": "latest",

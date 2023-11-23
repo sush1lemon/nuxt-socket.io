@@ -7,7 +7,6 @@ export default defineEventHandler(async (event) => {
     "select * from threads",
   )
 
-  client.close()
   return {
     data: result.rows,
   }
