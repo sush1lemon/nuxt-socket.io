@@ -8,6 +8,7 @@ import useWindowRefScroll from "~/composables/useWindowRefScroll";
 import crypto from "crypto";
 import useMobileCheck from "~/composables/useMobileCheck";
 import useUser from "~/composables/useUser";
+import useSendMessage from "~/composables/useSendMessage";
 
 const { $io } : { $io: Socket} = useNuxtApp();
 const {user} = useUser()
@@ -75,12 +76,7 @@ const joinRoom = () => {
 
 const sendMessage = async () => {
     if (route.name == "t-id" && messageContent.value) {
-        const message = {
-            content: messageContent.value,
-            from_id: user.value.id,
-            from_name: user.value?.name ?? user.value.id,
-        }
-        $io.emit("message", currentThread.value, message)
+        await useSendMessage(currentThread.value, messageContent.value)
     }
     messageContent.value = "";
     if (useMobileCheck()) {
