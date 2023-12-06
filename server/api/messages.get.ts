@@ -1,6 +1,10 @@
 import {useTurso} from "~/utils/turso";
+import {Socket} from "socket.io";
 
 export default defineEventHandler(async (event) => {
+  const io: Socket = event._socket;
+
+
   const query = getQuery(event)
   const { thread, page } = query;
   if (!thread) {
@@ -9,6 +13,13 @@ export default defineEventHandler(async (event) => {
       statusCode: 400,
     })
   }
+
+  io.to(thread).emit("join", {
+    from_id: "test",
+    from_name: "Test",
+    system: true,
+    content: `Test message from socket.io on server/api`
+  })
 
   const client = useTurso()
   const tQuery = await client.execute({

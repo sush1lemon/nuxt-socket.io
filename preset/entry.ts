@@ -48,6 +48,13 @@ const listener = server.listen(path ? { path } : { port, host }, (err) => {
 });
 const io = new SocketServer(server)
 socketHandler(io);
+nitroApp.hooks.beforeEach(event => {
+  if (event.name == "request") {
+    if (event.args.length > 1) {
+      event.args[1]["_socket"] = io
+    }
+  }
+})
 // Trap unhandled errors
 trapUnhandledNodeErrors();
 
