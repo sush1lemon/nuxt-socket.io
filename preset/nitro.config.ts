@@ -10,4 +10,7 @@ export default <NitroPreset>{
       // ...
     },
   },
+  commands: {
+    preview: "node ./server/index.mjs",
+  }
 };
