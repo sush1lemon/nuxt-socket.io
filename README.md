@@ -7,6 +7,12 @@ https://nuxt-socket.onrender.com
 By using a custom nitropack preset and entry files that contains the socket.io server, we can add the socket.io server.
 ### Related Files
 
+**Nitro Default entry files**
+
+https://github.com/unjs/nitro/blob/main/src/runtime/entries/node-server.ts
+
+https://github.com/unjs/nitro/blob/main/src/runtime/entries/nitro-dev.ts
+
 **Custom Nitropack Preset/Entry**
 ```
 preset/entry.dev.ts
