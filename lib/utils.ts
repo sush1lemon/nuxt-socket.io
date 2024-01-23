@@ -17,3 +17,8 @@ export function generateRandom(length: number) : string {
   }
   return result;
 }
+import { io } from 'socket.io-client';
+
+export const useSocket = () => {
+  return io();
+};

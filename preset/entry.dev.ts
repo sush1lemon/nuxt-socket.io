@@ -43,14 +43,12 @@ const listener = server.listen(listenAddress, () => {
   });
 });
 
-const io = new SocketServer(server)
+const io = new SocketServer(server, {
+  transports: ["polling"] // Added on dev because hmr keeps breaking when socket.io websocket connects
+})
 socketHandler(io);
-nitroApp.hooks.beforeEach(event => {
-  if (event.name == "request") {
-    if (event.args.length > 1) {
-      event.args[1]["_socket"] = io
-    }
-  }
+nitroApp.hooks.hook("request", (event)  => {
+  event["_socket"] = io
 })
 
 // Trap unhandled errors
